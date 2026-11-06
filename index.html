@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b35">
+<title>GlobalTopUp - Worldwide Recharge</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5fa;color:#17243a}
+header{background:#071b35;color:white;padding:23px 18px 30px;border-radius:0 0 25px 25px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-size:23px;font-weight:bold}
+.logo span{color:#42d6a4}
+select,input,button{font:inherit}
+#lang{width:125px;padding:9px;border-radius:9px;border:0}
+.hero{margin-top:27px}
+.hero h1{font-size:27px;margin:8px 0}
+.hero p{color:#c3d3e5;line-height:1.6}
+.container{max-width:650px;margin:-10px auto 30px;padding:0 14px}
+.card{background:white;border-radius:17px;padding:19px;margin-bottom:15px;box-shadow:0 5px 20px #122b4910}
+h2{font-size:18px;margin:0 0 16px}
+label{display:block;font-size:13px;font-weight:bold;margin:13px 0 7px}
+input,select{width:100%;padding:13px;border:1px solid #dce4ed;border-radius:10px;background:#fff;color:#17243a}
+.tabs{display:flex;gap:9px}
+.tabs button{flex:1;padding:13px;border:1px solid #dce4ed;background:white;border-radius:10px;font-weight:bold}
+.tabs button.active{background:#087e68;color:white;border-color:#087e68}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.amount{padding:15px;border:1px solid #dce4ed;border-radius:10px;text-align:center;cursor:pointer}
+.amount.active{border:2px solid #087e68;background:#eafff7;color:#087e68;font-weight:bold}
+.primary{width:100%;border:0;background:#087e68;color:white;padding:16px;border-radius:11px;font-weight:bold;margin-top:17px;cursor:pointer}
+.primary:active{transform:scale(.99)}
+.note{font-size:12px;color:#758397;line-height:1.6}
+.feature{display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #edf1f5}
+.feature:last-child{border:0}
+.feature b{font-size:14px}
+.feature small{display:block;color:#7a8798;margin-top:4px}
+footer{text-align:center;padding:20px;color:#8290a0;font-size:12px}
+#result{display:none;background:#eafff4;padding:14px;border-radius:10px;margin-top:14px;color:#087e68;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+ <div class="top">
+  <div class="logo">Global<span>TopUp</span> 🌍</div>
+  <select id="lang" aria-label="Language">
+   <option value="en">English</option>
+   <option value="fa">فارسی</option>
+   <option value="prs">دری</option>
+   <option value="ps">پښتو</option>
+   <option value="ar">العربية</option>
+   <option value="ur">اردو</option>
+   <option value="tr">Türkçe</option>
+   <option value="fr">Français</option>
+   <option value="de">Deutsch</option>
+   <option value="es">Español</option>
+   <option value="zh">中文</option>
+   <option value="hi">हिन्दी</option>
+   <option value="ru">Русский</option>
+  </select>
+ </div>
+ <div class="hero">
+  <div>🌐 <span data-i="world">Worldwide Mobile Recharge</span></div>
+  <h1 data-i="title">Recharge the world.</h1>
+  <p data-i="subtitle">Send mobile credit and internet data to family and friends around the world.</p>
+ </div>
+</header>
+
+<main class="container">
+ <section class="card">
+  <h2 data-i="order">📱 Create a recharge</h2>
+  <label data-i="country">Select country</label>
+  <select id="country">
+   <option value="">Choose a country</option>
+   <option>Afghanistan</option><option>Iran</option><option>Pakistan</option>
+   <option>India</option><option>United States</option><option>United Kingdom</option>
+   <option>Germany</option><option>France</option><option>Turkey</option>
+   <option>United Arab Emirates</option><option>Saudi Arabia</option>
+   <option>Canada</option><option>Australia</option><option>China</option>
+   <option>Bangladesh</option><option>Indonesia</option><option>Nigeria</option>
+   <option>South Africa</option><option>Brazil</option><option>Spain</option>
+   <option>Italy</option><option>Russia</option><option>Japan</option>
+   <option>Malaysia</option><option>Qatar</option><option>Kuwait</option>
+  </select>
+
+  <label data-i="phone">Recipient phone number</label>
+  <input id="phone" type="tel" placeholder="+93 700 000 000">
+
+  <label data-i="operator">Mobile operator</label>
+  <input id="operator" placeholder="e.g. Roshan, MTN, Vodafone">
+
+  <label data-i="service">Choose service</label>
+  <div class="tabs">
+   <button id="creditBtn" class="active" onclick="setService('credit')" data-i="credit">Mobile Credit</button>
+   <button id="dataBtn" onclick="setService('data')" data-i="data">Internet Data</button>
+  </div>
+
+  <label data-i="amount">Select amount / package</label>
+  <div class="grid" id="amounts">
+   <div class="amount active" onclick="choose(this,'5')">$5</div>
+   <div class="amount" onclick="choose(this,'10')">$10</div>
+   <div class="amount" onclick="choose(this,'20')">$20</div>
+   <div class="amount" onclick="choose(this,'50')">$50</div>
+  </div>
+  <button class="primary" onclick="submitOrder()" data-i="continue">Continue</button>
+  <div id="result"></div>
+  <p class="note" data-i="disclaimer">Demo only: no real credit or internet package is sent. Real recharge requires a verified provider and payment connection.</p>
+ </section>
+
+ <section class="card">
+  <h2 data-i="features">Our services</h2>
+  <div class="feature"><span>📲</span><div><b data-i="f1">International mobile credit</b><small data-i="f1s">Recharge mobile numbers worldwide</small></div></div>
+  <div class="feature"><span>📶</span><div><b data-i="f2">Internet packages</b><small data-i="f2s">Mobile data bundles</small></div></div>
+  <div class="feature"><span>🌍</span><div><b data-i="f3">Multiple countries</b><small data-i="f3s">Expand to more destinations</small></div></div>
+  <div class="feature"><span>🔒</span><div><b data-i="f4">Secure transactions</b><small data-i="f4s">Payment security planned</small></div></div>
+ </section>
+</main>
+<footer>GlobalTopUp © 2026 · Worldwide Recharge Platform</footer>
+
+<script>
+const translations={
+en:{world:"Worldwide Mobile Recharge",title:"Recharge the world.",subtitle:"Send mobile credit and internet data to family and friends around the world.",order:"📱 Create a recharge",country:"Select country",phone:"Recipient phone number",operator:"Mobile operator",service:"Choose service",credit:"Mobile Credit",data:"Internet Data",amount:"Select amount / package",continue:"Continue",features:"Our services",f1:"International mobile credit",f1s:"Recharge mobile numbers worldwide",f2:"Internet packages",f2s:"Mobile data bundles",f3:"Multiple countries",f3s:"Expand to more destinations",f4:"Secure transactions",f4s:"Payment security planned",disclaimer:"Demo only: no real credit or internet package is sent. Real recharge requires a verified provider and payment connection.",error:"Please enter country, phone number and operator.",success:"Demo order created. No payment was taken and no recharge was sent."},
+fa:{world:"شارژ موبایل در سراسر جهان",title:"جهان را شارژ کن.",subtitle:"برای خانواده و دوستان خود در سراسر جهان کریدیت و اینترنت بفرستید.",order:"📱 ایجاد سفارش شارژ",country:"کشور را انتخاب کنید",phone:"شماره موبایل دریافت‌کننده",operator:"اپراتور مخابراتی",service:"نوع خدمات",credit:"کریدیت موبایل",data:"بسته اینترنت",amount:"مقدار یا بسته را انتخاب کنید",continue:"ادامه",features:"خدمات ما",f1:"شارژ بین‌المللی موبایل",f1s:"شارژ شماره‌های موبایل در جهان",f2:"بسته‌های اینترنت",f2s:"بسته‌های دیتای موبایل",f3:"کشورهای مختلف",f3s:"افزودن مقصدهای بیشتر",f4:"تراکنش امن",f4s:"امنیت پرداخت در آینده",disclaimer:"فقط نسخه آزمایشی است؛ شارژ واقعی ارسال نمی‌شود. ارسال واقعی نیازمند تأمین‌کننده معتبر و اتصال پرداخت است.",error:"کشور، شماره موبایل و اپراتور را وارد کنید.",success:"سفارش آزمایشی ساخته شد؛ پولی پرداخت نشد و شارژی ارسال نگردید."},
+prs:{world:"شارژ موبایل در سراسر جهان",title:"جهان را شارژ کنید.",subtitle:"برای خانواده و دوستان تان در سراسر جهان کریدیت و انترنت بفرستید.",order:"📱 ایجاد سفارش شارژ",country:"کشور را انتخاب کنید",phone:"شماره موبایل دریافت‌کننده",operator:"اپراتور مخابراتی",service:"نوع خدمات",credit:"کریدیت موبایل",data:"بسته انترنت",amount:"مقدار یا بسته را انتخاب کنید",continue:"ادامه",features:"خدمات ما",f1:"شارژ بین‌المللی موبایل",f1s:"شارژ شماره‌های موبایل در جهان",f2:"بسته‌های انترنت",f2s:"بسته‌های دیتای موبایل",f3:"کشورهای مختلف",f3s:"افزودن کشورهای بیشتر",f4:"تراکنش امن",f4s:"امنیت پرداخت در آینده",disclaimer:"نسخه آزمایشی است؛ کریدیت یا انترنت واقعی ارسال نمی‌شود. برای شارژ واقعی به تأمین‌کننده معتبر و پرداخت نیاز است.",error:"کشور، شماره موبایل و اپراتور را وارد کنید.",success:"سفارش آزمایشی ساخته شد؛ پرداخت و شارژ واقعی انجام نشد."},
+ps:{world:"په ټوله نړۍ کې د موبایل چارج",title:"نړۍ چارج کړئ.",subtitle:"خپلې کورنۍ او ملګرو ته په ټوله نړۍ کې کریډیټ او انټرنېټ ولېږئ.",order:"📱 د چارج غوښتنه",country:"هېواد وټاکئ",phone:"د ترلاسه کوونکي شمېره",operator:"مخابراتي شبکه",service:"خدمت وټاکئ",credit:"موبایل کریډیټ",data:"انټرنېټ",amount:"اندازه یا بسته وټاکئ",continue:"دوام",features:"زموږ خدمتونه",f1:"نړیوال موبایل چارج",f1s:"د نړۍ د موبایل شمېرو چارج",f2:"د انټرنېټ بستې",f2s:"د موبایل ډیټا بستې",f3:"بېلابېل هېوادونه",f3s:"نورو هېوادونو ته پراختیا",f4:"خوندي معاملې",f4s:"د تادیې امنیت په راتلونکي کې",disclaimer:"دا یوازې ازمایښتي نسخه ده؛ ریښتینی چارج نه لېږل کېږي.",error:"هېواد، شمېره او شبکه ولیکئ.",success:"ازمایښتي غوښتنه جوړه شوه؛ پیسې او چارج نه دي لېږل شوي."},
+ar:{world:"شحن الهاتف حول العالم",title:"اشحن العالم.",subtitle:"أرسل رصيد الهاتف والإنترنت إلى العائلة والأصدقاء حول العالم.",order:"📱 إنشاء طلب شحن",country:"اختر الدولة",phone:"رقم هاتف المستلم",operator:"شركة الاتصالات",service:"اختر الخدمة",credit:"رصيد الهاتف",data:"بيانات الإنترنت",amount:"اختر المبلغ أو الباقة",continue:"متابعة",features:"خدماتنا",f1:"شحن دولي للهاتف",f1s:"شحن أرقام الهواتف حول العالم",f2:"باقات الإنترنت",f2s:"باقات بيانات الهاتف",f3:"دول متعددة",f3s:"إضافة وجهات أخرى",f4:"معاملات آمنة",f4s:"أمان الدفع قيد التطوير",disclaimer:"نسخة تجريبية فقط. لا يتم إرسال رصيد حقيقي.",error:"يرجى إدخال الدولة ورقم الهاتف والشركة.",success:"تم إنشاء طلب تجريبي. لم يتم الدفع أو إرسال الشحن."},
+ur:{world:"دنیا بھر میں موبائل ریچارج",title:"دنیا کو ریچارج کریں۔",subtitle:"دنیا بھر میں خاندان اور دوستوں کو موبائل کریڈٹ اور انٹرنیٹ بھیجیں۔",order:"📱 ریچارج بنائیں",country:"ملک منتخب کریں",phone:"وصول کنندہ کا نمبر",operator:"موبائل نیٹ ورک",service:"سروس منتخب کریں",credit:"موبائل کریڈٹ",data:"انٹرنیٹ ڈیٹا",amount:"رقم یا پیکج منتخب کریں",continue:"جاری رکھیں",features:"ہماری خدمات",f1:"بین الاقوامی موبائل ریچارج",f1s:"دنیا بھر میں موبائل ریچارج",f2:"انٹرنیٹ پیکجز",f2s:"موبائل ڈیٹا پیکجز",f3:"متعدد ممالک",f3s:"مزید ممالک شامل کریں",f4:"محفوظ لین دین",f4s:"ادائیگی کا تحفظ زیرِ تیاری",disclaimer:"صرف ڈیمو ہے؛ حقیقی ریچارج نہیں بھیجا جاتا۔",error:"ملک، نمبر اور نیٹ ورک درج کریں۔",success:"ڈیمو آرڈر بن گیا؛ ادائیگی یا ریچارج نہیں ہوا۔"},
+tr:{world:"Dünya çapında mobil yükleme",title:"Dünyayı yükle.",subtitle:"Dünyanın her yerine ailenize ve arkadaşlarınıza kredi ve internet gönderin.",order:"📱 Yükleme oluştur",country:"Ülke seçin",phone:"Alıcının telefon numarası",operator:"Mobil operatör",service:"Hizmet seçin",credit:"Mobil kredi",data:"İnternet paketi",amount:"Tutar veya paket seçin",continue:"Devam et",features:"Hizmetlerimiz",f1:"Uluslararası mobil yükleme",f1s:"Dünya çapında telefon yükleme",f2:"İnternet paketleri",f2s:"Mobil veri paketleri",f3:"Birçok ülke",f3s:"Daha fazla ülke ekleyin",f4:"Güvenli işlemler",f4s:"Ödeme güvenliği planlanıyor",disclaimer:"Demo sürümüdür; gerçek yükleme yapılmaz.",error:"Ülke, telefon ve operatör girin.",success:"Demo siparişi oluşturuldu; ödeme veya yükleme yapılmadı."},
+fr:{world:"Recharge mobile mondiale",title:"Rechargez le monde.",subtitle:"Envoyez du crédit et des données mobiles à vos proches partout dans le monde.",order:"📱 Créer une recharge",country:"Choisir le pays",phone:"Numéro du destinataire",operator:"Opérateur mobile",service:"Choisir le service",credit:"Crédit mobile",data:"Internet mobile",amount:"Choisir le montant / forfait",continue:"Continuer",features:"Nos services",f1:"Recharge mobile internationale",f1s:"Rechargez des numéros partout",f2:"Forfaits Internet",f2s:"Forfaits de données mobiles",f3:"Plusieurs pays",f3s:"Ajouter des destinations",f4:"Transactions sécurisées",f4s:"Sécurité des paiements prévue",disclaimer:"Démo uniquement : aucune recharge réelle n'est envoyée.",error:"Saisissez le pays, le numéro et l'opérateur.",success:"Commande de démonstration créée. Aucun paiement ni recharge."},
+de:{world:"Weltweite mobile Aufladung",title:"Lade die Welt auf.",subtitle:"Sende Mobilfunkguthaben und Daten an Familie und Freunde weltweit.",order:"📱 Aufladung erstellen",country:"Land auswählen",phone:"Telefonnummer des Empfängers",operator:"Mobilfunkanbieter",service:"Dienst auswählen",credit:"Mobilfunkguthaben",data:"Internetdaten",amount:"Betrag / Paket auswählen",continue:"Weiter",features:"Unsere Dienste",f1:"Internationale Handyaufladung",f1s:"Handynummern weltweit aufladen",f2:"Internetpakete",f2s:"Mobile Datenpakete",f3:"Viele Länder",f3s:"Weitere Ziele hinzufügen",f4:"Sichere Transaktionen",f4s:"Zahlungssicherheit geplant",disclaimer:"Nur Demo: Es wird kein echtes Guthaben gesendet.",error:"Bitte Land, Nummer und Anbieter eingeben.",success:"Demo-Bestellung erstellt. Keine Zahlung oder Aufladung erfolgt."},
+es:{world:"Recargas móviles internacionales",title:"Recarga el mundo.",subtitle:"Envía saldo móvil e internet a familiares y amigos en todo el mundo.",order:"📱 Crear recarga",country:"Seleccionar país",phone:"Número del destinatario",operator:"Operador móvil",service:"Elegir servicio",credit:"Saldo móvil",data:"Datos de internet",amount:"Elegir importe / paquete",continue:"Continuar",features:"Nuestros servicios",f1:"Recarga móvil internacional",f1s:"Recarga números en todo el mundo",f2:"Paquetes de internet",f2s:"Paquetes de datos móviles",f3:"Varios países",f3s:"Añadir más destinos",f4:"Transacciones seguras",f4s:"Seguridad de pago prevista",disclaimer:"Solo demostración: no se envía saldo real.",error:"Introduce país, número y operador.",success:"Pedido de prueba creado. No se realizó ningún pago ni recarga."},
+zh:{world:"全球手机充值",title:"为世界充值。",subtitle:"向世界各地的家人和朋友发送手机话费和流量。",order:"📱 创建充值订单",country:"选择国家",phone:"收件人手机号",operator:"移动运营商",service:"选择服务",credit:"手机话费",data:"互联网流量",amount:"选择金额或套餐",continue:"继续",features:"我们的服务",f1:"国际手机充值",f1s:"为全球手机号码充值",f2:"互联网套餐",f2s:"移动数据套餐",f3:"多个国家",f3s:"扩展更多目的地",f4:"安全交易",f4s:"支付安全正在规划",disclaimer:"仅为演示版本，不会发送真实话费或流量。",error:"请输入国家、手机号和运营商。",success:"演示订单已创建。未付款，也未充值。"},
+hi:{world:"दुनिया भर में मोबाइल रिचार्ज",title:"दुनिया को रिचार्ज करें।",subtitle:"दुनिया भर में परिवार और दोस्तों को मोबाइल क्रेडिट और इंटरनेट भेजें।",order:"📱 रिचार्ज बनाएं",country:"देश चुनें",phone:"प्राप्तकर्ता का फोन नंबर",operator:"मोबाइल ऑपरेटर",service:"सेवा चुनें",credit:"मोबाइल क्रेडिट",data:"इंटरनेट डेटा",amount:"राशि या पैकेज चुनें",continue:"जारी रखें",features:"हमारी सेवाएं",f1:"अंतरराष्ट्रीय मोबाइल रिचार्ज",f1s:"दुनिया भर में मोबाइल रिचार्ज",f2:"इंटरनेट पैकेज",f2s:"मोबाइल डेटा पैकेज",f3:"कई देश",f3s:"और देश जोड़ें",f4:"सुरक्षित लेनदेन",f4s:"भुगतान सुरक्षा की योजना",disclaimer:"केवल डेमो: वास्तविक रिचार्ज नहीं भेजा जाता।",error:"देश, फोन नंबर और ऑपरेटर दर्ज करें।",success:"डेमो ऑर्डर बन गया। कोई भुगतान या रिचार्ज नहीं हुआ।"},
+ru:{world:"Мобильное пополнение по всему миру",title:"Пополняйте мир.",subtitle:"Отправляйте мобильный баланс и интернет близким по всему миру.",order:"📱 Создать пополнение",country:"Выберите страну",phone:"Номер получателя",operator:"Мобильный оператор",service:"Выберите услугу",credit:"Мобильный баланс",data:"Интернет-пакет",amount:"Выберите сумму или пакет",continue:"Продолжить",features:"Наши услуги",f1:"Международное пополнение",f1s:"Пополнение номеров по всему миру",f2:"Интернет-пакеты",f2s:"Пакеты мобильных данных",f3:"Множество стран",f3s:"Добавление новых направлений",f4:"Безопасные транзакции",f4s:"Защита платежей планируется",disclaimer:"Только демо: реальное пополнение не отправляется.",error:"Введите страну, номер и оператора.",success:"Демо-заказ создан. Оплата и пополнение не выполнялись."}
+};
+
+let service="credit",selected="5";
+function choose(el,value){
+ document.querySelectorAll(".amount").forEach(x=>x.classList.remove("active"));
+ el.classList.add("active");selected=value;
+}
+function setService(type){
+ service=type;
+ document.getElementById("creditBtn").classList.toggle("active",type==="credit");
+ document.getElementById("dataBtn").classList.toggle("active",type==="data");
+}
+function setLanguage(code){
+ const t=translations[code]||translations.en;
+ document.documentElement.lang=code;
+ document.documentElement.dir=["fa","prs","ps","ar","ur"].includes(code)?"rtl":"ltr";
+ document.querySelectorAll("[data-i]").forEach(el=>{
+  const key=el.getAttribute("data-i");
+  if(t[key])el.textContent=t[key];
+ });
+ document.getElementById("result").style.display="none";
+}
+document.getElementById("lang").addEventListener("change",e=>setLanguage(e.target.value));
+function submitOrder(){
+ const lang=document.getElementById("lang").value;
+ const t=translations[lang]||translations.en;
+ const country=document.getElementById("country").value;
+ const phone=document.getElementById("phone").value.trim();
+ const operator=document.getElementById("operator").value.trim();
+ const result=document.getElementById("result");
+ result.style.display="block";
+ if(!country||!phone||!operator){
+  result.textContent=t.error;return;
+ }
+ result.textContent=t.success+" | "+country+" | "+phone+" | "+operator+" | $"+selected;
+}
+setLanguage("en");
+</script>
+</body>
+</html>
